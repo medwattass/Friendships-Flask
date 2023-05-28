@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Friendships</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h1>Friendships</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Friend</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users_with_friends %}
+                        <tr>
+                            <td>{{user.first_name}} {{user.last_name}}</td>
+                            <td>{{user.friend_first_name}} {{user.friend_last_name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-4">
+
+                <h1>Add User</h1>
+                <form action="/friendships/create_user" method="POST" class="row g-3">
+                    <label for="fname">First Name:</label>
+                    <input type="text" name="fname" class="form-control">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" name="lname" class="form-control">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Add User</button>
+                    </div>
+                </form>
+
+                <h1>Create Friendship</h1>
+                <form action="/friendships/create_friendship" method="POST" class="row g-3" >
+                    <label for="user_id" class="form-label">User:</label>
+                    <select name="user_id" id="user_selection" class="form-select" required>
+                        <option value="0" selected>---Select a User---</option>
+                        {% for user in users %}
+                        <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="friend_id" class="form-label">Friend:</label>
+                    <select name="friend_id" id="friend_selection" class="form-select" required>
+                        <option selected>---Select a Friend---</option>
+                        {% for user in users %}
+                        <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary mb-3">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
